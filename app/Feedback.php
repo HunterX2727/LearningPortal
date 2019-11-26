@@ -9,7 +9,7 @@ class Feedback extends Model
     protected $table = 'feedbacks';
     public function Enrollment(){
 
-        return $this->belongsTo(Enrollment::class);
+        return $this->belongsTo('App\Enrollment');
 
     }
 }

@@ -1,12 +1,16 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\User;
+
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Teacher;
+use App\Student;
+use App\User;
+use Auth;
 
 class RegisterController extends Controller
 {
@@ -20,16 +24,8 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
-    use RegistersUsers;
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
+    
+    
     /**
      * Create a new controller instance.
      *
@@ -38,35 +34,87 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+        $this->middleware('guest:teacher');
+        $this->middleware('guest:student');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+
+    public function showTeacherRegisterForm(){
+
+        return view('auth.teacher_register', ['url' => 'teacher']);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+    public function showStudentRegisterForm(){
+
+        return view('auth.student_register', ['url' => 'student']);
     }
+
+    public function teacherRegister(Request $request){
+        
+        $this->validate($request, [
+            'First_Name' => 'required',
+            'Last_Name' => 'required',
+            'user_name' => 'required',
+            'email' => 'required',
+            'Qualifications' => 'required',
+            'Brief_Intro' => 'required',
+            'password' => 'required',
+        ]);
+        $user = User::create([
+
+            'First_Name' => $request['First_Name'],
+            'Last_Name' => $request['Last_Name'],
+            'user_name' => $request['user_name'],
+            'email' => $request['email'],
+            'password' =>Hash::make($request['password']),
+        ]);
+        
+        
+        if ($user->id){
+        $teacher = new Teacher;
+            $teacher->User()->associate($user);
+            $teacher->Qualifications  = $request->get('Qualifications');
+            $teacher->Brief_Intro = $request->get('Brief_Intro');
+            $teacher->save();
+        
+        }
+      
+        
+
+        return redirect()->intended('login\teacher');
+    }
+
+    public function studentRegister(Request $request){
+        
+        $this->validate($request, [
+            'First_Name' => 'required',
+            'Last_Name' => 'required',
+            'user_name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            
+        ]);
+        $user = User::create([
+
+            'First_Name' => $request['First_Name'],
+            'Last_Name' => $request['Last_Name'],
+            'user_name' => $request['user_name'],
+            'email' => $request['email'],
+            'password' =>Hash::make($request['password']),
+        ]);
+
+        if ($user->id){
+            $student = new Student;
+                $student->User()->associate($user);
+                $student->save();
+        }
+        
+
+        return redirect()->intended('login\student');
+        }
+
+
+
+  
+
 }

@@ -9,7 +9,7 @@ class ContentType extends Model
     protected $table = 'content_types'; 
     public function CourseChapterContents(){
 
-        return $this->hasMany(CourseChapterContent::class);
+        return $this->hasMany('App\CourseChapterContent');
 
     }
 }

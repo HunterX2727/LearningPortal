@@ -10,22 +10,22 @@ class Enrollment extends Model
     
     public function Student(){
 
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo('App\Student');
 
     }
     public function Course(){
 
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo('App\Course');
 
     }
     public function Feedbacks(){
 
-        return $this->hasMany(Feedback::class);
+        return $this->hasMany('App\Feedback');
 
     }
     public function LearningProgresses(){
 
-        return $this->hasMany(LearningProgress::class);
+        return $this->hasMany('App\LearningProgress');
 
     }
 }

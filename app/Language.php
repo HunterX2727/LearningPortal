@@ -10,7 +10,7 @@ class Language extends Model
     public function Courses(){
 
 
-        return $this->hasMany(Course::class);
+        return $this->hasMany('App\Courses');
 
     }
 }

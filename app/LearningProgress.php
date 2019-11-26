@@ -9,12 +9,12 @@ class LearningProgress extends Model
     protected $table = 'learning_progresses';
     public function Enrollment(){
 
-        return $this->belongsTo(Enrollment::class);
+        return $this->belongsTo('App\Enrollment');
 
     }
     public function CourseChapterContent(){
 
-        return $this->belongsTo(CourseChapterContent::class);
+        return $this->belongsTo('App\CourseChapterContent');
 
     }
 }

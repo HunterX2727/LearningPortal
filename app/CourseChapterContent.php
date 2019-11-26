@@ -10,17 +10,17 @@ class CourseChapterContent extends Model
     
     public function CourseChapter(){
 
-        return $this->belongsTo(CourseChapter::class);
+        return $this->belongsTo('App\CourseChapter');
 
     }
     public function ContentType(){
 
-        return $this->belongsTo(ContentType::class);
+        return $this->belongsTo('App\ContentType');
 
     }
     public function LearningProgresses(){
 
-        return $this->belongsTo(LearningProgress::class);
+        return $this->belongsTo('App\LearningProgress');
 
     }
 }

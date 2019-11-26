@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -20,14 +22,7 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
+     /**
      * Create a new controller instance.
      *
      * @return void
@@ -35,5 +30,59 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+        $this->middleware('guest:teacher')->except('logout');
+        $this->middleware('guest:student')->except('logout');
     }
+
+
+    
+    public function showTeacherLoginForm(){
+
+        return view('auth.login',['url'=>'teacher']);
+    }
+
+
+    public function teacherLogin(Request $request){
+
+        $this-> validate($request,[
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+        ]);
+        if  (Auth::guard('teacher')->attempt(['email' => $request->email,'password' => $request->password],$request->get('remember'))){
+            
+            return redirect()->intended('\teacher');
+
+        }
+
+        return back()->withInput($request->only('email','remember'));
+
+
+    }
+
+
+
+
+    public function showStudentLoginForm(){
+
+        return view('auth.login',['url'=>'student']);
+    }
+
+
+
+    public function studentLogin(Request $request){
+
+        $this-> validate($request, [
+
+            'email' => 'required|email',
+            "password" => 'required|min:8',
+        ]);
+        if (Auth::guard('student')->attempt(['email'=> $request->email,'password'=> $request->password],$request->get('remeber'))){
+
+            return redirect()->intended('\student');
+        }
+
+        return back()->withInput($request->only('email','password'));
+    }
+   
+   
 }

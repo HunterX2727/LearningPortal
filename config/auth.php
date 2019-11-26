@@ -46,7 +46,21 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+        //custom teacher gaurd
+        'teacher'=>[
+
+            'driver'=> 'session',
+            'provider'=>'teacher',
+
+        ],
+        'student'=>[
+            'driver'=>'session',
+            'provider'=>'student',
+        ]
+
+
     ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -70,7 +84,15 @@ return [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
-
+        //custom teacher provider
+        'teacher' => [
+            'driver'=>'eloquent',
+            'model'=> App\Teacher::class,
+        ],
+        'student'=> [
+            'driver'=>'eloquent',
+            'model'=>App\Student::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

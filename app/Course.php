@@ -10,22 +10,22 @@ class Course extends Model
 
     public function Teacher(){
 
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsTo('App\Teacher');
 
     }
     public function Enrollments(){
 
-        return $this->hasMany(Enrollment::class);
+        return $this->hasMany('App\Enrollment');
 
     }
     public function CourseChapters(){
 
-        return $this->hasMany(CourseChapter::class);
+        return $this->hasMany('App\CourseChapter');
 
     }
     Public function Language(){
 
-        return $this->belongsTo(Language::class);
+        return $this->belongsTo('App\Language');
 
     }
 }

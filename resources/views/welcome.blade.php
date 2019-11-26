@@ -61,6 +61,24 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+            .dropdown{
+                position: relative;
+                display: inline;
+            
+            }
+            .dropdown_content{
+                display: none;
+                position: absolute;
+                background color: #636b6f;
+                min-width: 100%;
+                overflow : auto;
+                box-shadow : 0px 8px 16px  0px rbg(0.0.0.0.2);
+                padding : 12px 16px;
+                z-index : 1;
+            }
+            .dropdown:hover .dropdown_content{
+                display: block;
+            }
         </style>
     </head>
     <body>
@@ -71,13 +89,18 @@
                         <a href="{{ url('/home') }}">Home</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
                         @endif
+                        <li class="dropdown">
+                            <a href="{{route('register')}}">Register</a>
+                                <div class="dropdown_content">
+                                        <a href="{{route('teacherRegister')}}">Teacher Account</a>
+                                    <a href="{{route('studentRegister')}}">Student Account</a>
+                                </div>
+                        </li>
+                        
                     @endauth
                 </div>
-            @endif
+            
 
             <div class="content">
                 <div class="title m-b-md">
