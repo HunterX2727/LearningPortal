@@ -18,13 +18,14 @@ Route::get('/', function () {
 Auth::routes();
 
 
-Route::get('/login/teacher', 'Auth\LoginController@showTeacherLoginForm')->name('teacherLogin');
-Route::get('/login/student', 'Auth\LoginController@showStudentLoginForm')->name('studentLogin');
+Route::get('/login', 'Auth\LoginController@showLoginForm')->name('userLogin');
+Route::POST('/logout', 'Auth\LoginController@logout')->name('logout');
+//Route::get('/login/student', 'Auth\LoginController@showStudentLoginForm')->name('studentLogin');
 Route::get('/register/teacher', 'Auth\RegisterController@showTeacherRegisterForm')->name('teacherRegister');
 Route::get('/register/student', 'Auth\RegisterController@showStudentRegisterForm')->name('studentRegister');
 
-Route::post('/login/teacher', 'Auth\LoginController@teacherLogin');
-Route::post('/login/student', 'Auth\LoginController@studentLogin');
+Route::post('/login/teacher', 'Auth\LoginController@userLogin');
+Route::post('/login/student', 'Auth\LoginController@usertLogin');
 Route::post('/register/teacher', 'Auth\RegisterController@teacherRegister');
 Route::post('/register/student', 'Auth\RegisterController@studentRegister');
 
@@ -32,6 +33,13 @@ Route::post('/register/student', 'Auth\RegisterController@studentRegister');
 
 
 
-Route::get('/teacher', 'TeacherController@index');
-Route::get('/student', 'StudentController@index');
-Route::get('/home', 'HomeController@index')->middleware('auth');
+Route::get('/teacher', 'TeacherController@index')->middleware('teacher');
+Route::get('/student', 'StudentController@index')->middleware('student');
+Route::get('/home', 'HomeController@index')->middleware('auth')->name('home');
+
+
+Route::resource('courses', 'CourseController');
+
+
+
+

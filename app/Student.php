@@ -5,8 +5,9 @@ namespace App;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Database\Eloquent\Model;
 
-class Student extends Model
+class Student extends Authenticatable
 {   
+    use Notifiable;
     protected $guard= 'student';
     protected $table = 'students';
     protected $primaryKey='User_Id';

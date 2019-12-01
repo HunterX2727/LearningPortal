@@ -36,13 +36,14 @@ class LoginController extends Controller
 
 
     
-    public function showTeacherLoginForm(){
+    /*public function showTeacherLoginForm(){
 
         return view('auth.login',['url'=>'teacher']);
     }
+    */
 
 
-    public function teacherLogin(Request $request){
+    public function userLogin(Request $request){
 
         $this-> validate($request,[
             'email' => 'required|email',
@@ -51,9 +52,15 @@ class LoginController extends Controller
         if  (Auth::guard('teacher')->attempt(['email' => $request->email,'password' => $request->password],$request->get('remember'))){
             
             return redirect()->intended('\teacher');
+        }
+        elseif
+        
+        (Auth::guard('student')->attempt(['email'=> $request->email,'password'=> $request->password],$request->get('remeber'))){
 
+            return redirect()->intended('\student');    
         }
 
+        
         return back()->withInput($request->only('email','remember'));
 
 
@@ -62,14 +69,14 @@ class LoginController extends Controller
 
 
 
-    public function showStudentLoginForm(){
+    public function showLoginForm(){
 
-        return view('auth.login',['url'=>'student']);
+        return view('auth.login');
     }
 
 
 
-    public function studentLogin(Request $request){
+   /* public function studentLogin(Request $request){
 
         $this-> validate($request, [
 
@@ -83,6 +90,11 @@ class LoginController extends Controller
 
         return back()->withInput($request->only('email','password'));
     }
-   
+   */
+    public function logout(Request $request){
+
+        Auth::logout();
+        return redirect('/login');
+    }
    
 }

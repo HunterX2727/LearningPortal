@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Course;
+use App\Teacher;
+use App\User;
 
 class CourseController extends Controller
 {
+
+  
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +18,9 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        $courses = Course::all();
+    
+        return view('course.index')->with('courses',$courses);
     }
 
     /**
@@ -45,7 +52,8 @@ class CourseController extends Controller
      */
     public function show($id)
     {
-        //
+        $course= Course::find($id);
+        return view('course.show')->with('course', $course);
     }
 
     /**
